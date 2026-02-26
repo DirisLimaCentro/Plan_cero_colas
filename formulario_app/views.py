@@ -65,7 +65,7 @@ def registrar_cita(request):
         }
 
         try:
-            response = requests.post(url_post, data=payload, timeout=120)
+            response = requests.post(url_post, data=payload, timeout=None)
 
             # Si devuelve JSON
             try:

@@ -38,6 +38,7 @@ class Cita(models.Model):
     establecimiento = models.CharField(max_length=150, null=False, blank=False)
     ups = models.CharField(max_length=150, null=False, blank=False)
     servicio = models.CharField(max_length=500, null=False, blank=False)
+    correo = models.EmailField(max_length=150, null=True, blank=True)
 
     class Meta:
         db_table = 'citas'  # Apunta exactamente a la tabla en MySQL
