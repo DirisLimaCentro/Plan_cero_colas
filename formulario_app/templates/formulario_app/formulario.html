@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Plan Cero Colas - Registro de Cita</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #0d6efd, #0dcaf0);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        .card {
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .form-control, .form-select {
+            border-radius: 10px;
+        }
+        .btn-primary {
+            border-radius: 10px;
+            padding: 10px;
+            font-weight: 600;
+        }
+        .titulo {
+            font-weight: bold;
+            color: #0d6efd;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card p-4">
+                <div class="card-body">
+
+                    <h3 class="text-center mb-4 titulo">
+                        🏥 Plan Cero Colas
+                    </h3>
+                    <p class="text-center text-muted mb-4">
+                        Registro de Solicitud de Cita
+                    </p>
+
+{% if messages %}
+    {% for message in messages %}
+        <script>
+            alert("{{ message }}");
+        </script>
+    {% endfor %}
+{% endif %}
+
+                    <form method="POST" action="{% url 'registrar_cita' %}"> 
+                        {% csrf_token %}
+
+                        <!-- Tipo Documento -->
+                        <div class="mb-3">
+                            <label class="form-label">Tipo de Documento</label>
+                            <select name="tipo_documento" class="form-select" required>
+                                <option value="">Seleccione...</option>
+                                <option value="DNI">DNI</option>
+                                <option value="CE">Carnet de Extranjería</option>
+                             </select>
+                        </div>
+
+                        <!-- Número Documento -->
+                        <div class="mb-3">
+                            <label class="form-label">Número de Documento</label>
+                            <input type="text" name="numero_doc" class="form-control" placeholder="Ingrese su número de documento" required>
+                        </div>
+
+                        <!-- Fecha Nacimiento -->
+                        <div class="mb-3">
+                            <label class="form-label">Fecha de Nacimiento</label>
+                            <input type="date" name="fecha_nacimiento" class="form-control" required>
+                        </div>
+
+                        <!-- Establecimiento -->
+                        <div class="mb-3">
+    <label class="form-label">Establecimiento de Salud</label>
+    <select name="establecimiento" class="form-select" required>
+        <option value="">Seleccione...</option>
+        {% for e in establecimientos %}
+            <option value="{{ e.descripcion }}">
+                {{ e.descripcion }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
+                        <!-- UPS -->
+                        <div class="mb-3">
+    <label class="form-label">UPS</label>
+    <select name="ups" id="upsSelect" class="form-select" required>
+        <option value="">Seleccione...</option>
+        {% for u in ups_lista %}
+            <option value="{{ u.codigo }}">
+                {{ u.codigo }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
+                        <!-- Servicio -->
+         <div class="mb-3">
+    <label class="form-label">Servicio</label>
+    <select name="servicio" id="servicioSelect" class="form-select" required>
+        <option value="">Seleccione un UPS primero...</option>
+    </select>
+</div>
+                        <!-- Botón -->
+                       <div class="text-center">
+    <button type="submit" id="btnRegistrar" class="btn btn-primary">
+        <span id="textoBtn">Registrar Cita</span>
+        <span id="spinnerBtn" style="display:none;">
+            <span class="spinner-border spinner-border-sm"></span>
+            Procesando...
+        </span>
+    </button>
+</div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById("upsSelect").addEventListener("change", function() {
+
+    let upsSeleccionado = this.value;
+    let servicioSelect = document.getElementById("servicioSelect");
+
+    servicioSelect.innerHTML = '<option>Cargando...</option>';
+
+    fetch(`/api/servicios/?ups=${encodeURIComponent(upsSeleccionado)}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error HTTP " + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+
+            servicioSelect.innerHTML = '<option value="">Seleccione...</option>';
+
+            data.forEach(item => {
+
+                // 👇 AQUÍ TOMAMOS EL CAMPO "ups" QUE VIENE DE LA API
+                let option = document.createElement("option");
+                option.value = item.ups;
+                option.textContent = item.ups;
+
+                servicioSelect.appendChild(option);
+            });
+
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            servicioSelect.innerHTML = '<option>Error al cargar</option>';
+        });
+
+});
+</script>
+
+<script>
+document.querySelector("form").addEventListener("submit", function() {
+
+    let btn = document.getElementById("btnRegistrar");
+    let texto = document.getElementById("textoBtn");
+    let spinner = document.getElementById("spinnerBtn");
+
+    // Desactivar botón
+    btn.disabled = true;
+
+    // Ocultar texto
+    texto.style.display = "none";
+
+    // Mostrar spinner
+    spinner.style.display = "inline-block";
+});
+</script>
+</body>
+</html>

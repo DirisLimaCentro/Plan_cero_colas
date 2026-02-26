@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Seguimiento de Ticket</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    body {
+        background-image: url("https://waitingforyourbaby.com.pe/wp-content/uploads/2019/11/fondo-celeste-trans.png");
+        background-size: cover;           /* cubre toda la pantalla */
+        background-position: center;      /* centra la imagen */
+        background-repeat: no-repeat;     /* evita repeticiones */
+        background-attachment: fixed;     /* efecto parallax */
+    }
+</style>
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+<div class="card shadow p-4 rounded-4">
+     <div class="text-center mb-4">
+       <img 
+        src="https://app1.dirislimacentro.gob.pe/std_virtual/dist/img/logodiris.png"
+        alt="Logo"
+        class="img-fluid"
+        style="width:50%;"
+    >
+    </div>
+
+    <h3 class="mb-4 text-center">CONSULTA TU CITA</h3>
+
+    <!-- FORMULARIO BÚSQUEDA -->
+    <form method="GET" class="d-flex mb-4">
+    <input type="text" name="ticket" class="form-control me-2"
+           placeholder="" required>
+    <button class="btn btn-primary">Buscar</button>
+</form>
+
+    {% if ticket_data == "no_existe" %}
+        <div class="alert alert-danger text-center">❌ El ticket no existe.</div>
+    {% endif %}
+
+    {% if ticket_data and ticket_data != "no_existe" %}
+    <!-- TABLA RESULTADO -->
+    <table class="table table-bordered">
+        <tr>
+    <th>Fecha y hora de registro</th>
+    <td>
+        {% if ticket_data.created_at %}
+            {{ ticket_data.created_at|date:"d \\d\\e F \\d\\e Y" }} a las {{ ticket_data.created_at|time:"H:i" }}
+        {% else %}
+         {% endif %}
+    </td>
+</tr>
+        <tr>
+    <th>Estado</th>
+    <td>
+        {% if ticket_data.estado_reclamo == 0 %}
+            <span >Nuevo</span>
+        {% elif ticket_data.estado_reclamo == 1 %}
+            <span >En curso</span>
+        {% elif ticket_data.estado_reclamo == 2 %}
+            <span >Atendido</span>
+        {% elif ticket_data.estado_reclamo == 3 %}
+            <span >Cerrado</span>
+        {% else %}
+            <span > </span>
+        {% endif %}
+    </td>
+</tr>
+        <tr><th>Código de ticket</th><td>{{ ticket_data.codigo_ticket }}</td></tr>
+        <tr><th>Usuario</th><td>{{ ticket_data.nombres }}</td></tr>
+        <!--<tr><th>Celular</th><td>{{ ticket_data.celular }}</td></tr>-->
+        <tr><th>Dependencia</th><td>{% if ticket_data.entidad2 == 1 %}
+        C.S.M.C. BARRANCO
+    {% elif ticket_data.entidad2 == 2 %}
+        C.S. GAUDENCIO BERNASCONI
+    {% elif ticket_data.entidad2 == 3 %}
+        C.S. ALICIA LASTRES DE LA TORRE
+    {% elif ticket_data.entidad2 == 4 %}
+        C.S. GUSTAVO LANATTA LUJAN
+    {% elif ticket_data.entidad2 == 5 %}
+        C.M.I. VIRGEN DEL CARMEN
+    {% elif ticket_data.entidad2 == 6 %}
+        P.S. ARMATAMBO
+    {% elif ticket_data.entidad2 == 7 %}
+        C.E. SAN PEDRO DE LOS CHORRILL
+    {% elif ticket_data.entidad2 == 8 %}
+        C.M.I. BUENOS AIRES DE VILLA
+    {% elif ticket_data.entidad2 == 9 %}
+        C.S. DELICIAS DE VILLA
+    {% elif ticket_data.entidad2 == 10 %}
+        C.S. SAN GENARO DE VILLA
+    {% elif ticket_data.entidad2 == 11 %}
+        P.S. VISTA ALEGRE DE VILLA
+    {% elif ticket_data.entidad2 == 12 %}
+        P.S. SANTA ISABEL DE VILLA
+    {% elif ticket_data.entidad2 == 13 %}
+        C.S. TUPAC AMARU DE VILLA
+    {% elif ticket_data.entidad2 == 14 %}
+        P.S. SAN JUAN DE LA LIBERTAD
+    {% elif ticket_data.entidad2 == 15 %}
+        P.S. MATEO PUMACAHUA
+    {% elif ticket_data.entidad2 == 16 %}
+        P.S. SANTA TERESA DE CHORRILLOS
+    {% elif ticket_data.entidad2 == 17 %}
+        P.S. VILLA VENTURO
+    {% elif ticket_data.entidad2 == 18 %}
+        P.S. NUEVA CALEDONIA
+    {% elif ticket_data.entidad2 == 19 %}
+        P.S. LOS INCAS
+    {% elif ticket_data.entidad2 == 20 %}
+        P.S. DEFENSORES DE LIMA
+    {% elif ticket_data.entidad2 == 21 %}
+        C.S.M.C. SAN SEBASTIAN
+    {% elif ticket_data.entidad2 == 22 %}
+        C.S.M.C. COMUNITARIO NANCY REYES BAHAMONETE
+    {% elif ticket_data.entidad2 == 23 %}
+        C.S. SANTIAGO DE SURCO
+    {% elif ticket_data.entidad2 == 24 %}
+        P.S. SAN CARLOS
+    {% elif ticket_data.entidad2 == 25 %}
+        P.S. SAN ROQUE
+    {% elif ticket_data.entidad2 == 26 %}
+        P.S. LOS VIÑEDOS DE SURCO
+    {% elif ticket_data.entidad2 == 27 %}
+        P.S. LAS FLORES
+    {% elif ticket_data.entidad2 == 28 %}
+        P.S. LAS DUNAS
+    {% elif ticket_data.entidad2 == 132 %}
+        C.S.M.C. CRL. SAN. WILELMO PEDRO ZORRILLA HUAMAN
+    {% elif ticket_data.entidad2 == 138 %}
+        C.S.M.C. SAN IGNACIO DE SURCO
+    {% elif ticket_data.entidad2 == 102 %} C.M.I. LURÍN
+  {% elif ticket_data.entidad2 == 103 %} P.S. BUENA VISTA
+  {% elif ticket_data.entidad2 == 104 %} CLAS JULIO C TELLO
+  {% elif ticket_data.entidad2 == 105 %} C.S. VILLA ALEJANDRO
+  {% elif ticket_data.entidad2 == 106 %} P.S. MARTHA MILAGROS BAJA
+  {% elif ticket_data.entidad2 == 107 %} C.S. NUEVO LURIN KM. 40 (CLAS)
+  {% elif ticket_data.entidad2 == 111 %} P.S. VILLA LIBERTAD (CLAS)
+  {% elif ticket_data.entidad2 == 124 %} C.S. SAN BARTOLO
+  {% elif ticket_data.entidad2 == 125 %} C.S. PUCUSANA
+  {% elif ticket_data.entidad2 == 126 %} C.S. BENJAMÍN DOIG
+  {% elif ticket_data.entidad2 == 127 %} P.S. PUNTA HERMOSA
+  {% elif ticket_data.entidad2 == 128 %} C.S. PUNTA NEGRA
+  {% elif ticket_data.entidad2 == 129 %} P.S. VILLA MERCEDES
+  {% elif ticket_data.entidad2 == 134 %} CSMC BALNEARIOS DEL SUR
+  {% elif ticket_data.entidad2 == 137 %} CSMC SAN PEDRO DE LURIN
+  {% elif ticket_data.entidad2 == 108 %} C.S.M.C. LA MEDALLA MILAGROSA
+  {% elif ticket_data.entidad2 == 109 %} C.S.M.C. SANTA ROSA DE MANCHAY
+  {% elif ticket_data.entidad2 == 110 %} C.S. PACHACAMAC
+  {% elif ticket_data.entidad2 == 112 %} P.S. PAMPA GRANDE
+  {% elif ticket_data.entidad2 == 113 %} P.S. QUEBRADA VERDE
+  {% elif ticket_data.entidad2 == 114 %} P.S. GUAYABO
+  {% elif ticket_data.entidad2 == 115 %} P.S. PICA PIEDRA
+  {% elif ticket_data.entidad2 == 116 %} P.S. CARDAL
+  {% elif ticket_data.entidad2 == 117 %} P.S. MANCHAY ALTO
+  {% elif ticket_data.entidad2 == 118 %} P.S. TAMBO INGA
+  {% elif ticket_data.entidad2 == 119 %} C.S. PORTADA DE MANCHAY
+  {% elif ticket_data.entidad2 == 120 %} P.S. HUERTOS DE MANCHAY
+  {% elif ticket_data.entidad2 == 121 %} C.S. CLAS JUAN PABLO II
+  {% elif ticket_data.entidad2 == 122 %} P.S. COLLANAC
+  {% elif ticket_data.entidad2 == 123 %} P.S. PARQUES DE MANCHAY
+  {% elif ticket_data.entidad2 == 135 %} P.S. BELLA ESMERALDA
+  {% elif ticket_data.entidad2 == 29 %} C.S. SAN JUAN DE MIRAFLORES
+  {% elif ticket_data.entidad2 == 30 %} P.S. DESIDERIO MOSCOSO CASTILLO
+  {% elif ticket_data.entidad2 == 31 %} P.S. VILLA SOLIDARIDAD
+  {% elif ticket_data.entidad2 == 32 %} P.S. VALLE SHARON
+  {% elif ticket_data.entidad2 == 33 %} P.S. PAMPAS DE SAN JUAN
+  {% elif ticket_data.entidad2 == 34 %} C.S. TRÉBOL AZUL
+  {% elif ticket_data.entidad2 == 35 %} P.S. HÉROES DEL PACÍFICO
+  {% elif ticket_data.entidad2 == 36 %} P.S. PARAÍSO
+  {% elif ticket_data.entidad2 == 37 %} P.S. SANTA URSULA
+  {% elif ticket_data.entidad2 == 38 %} P.S. RICARDO PALMA
+  {% elif ticket_data.entidad2 == 39 %} P.S. LADERAS DE VILLA
+  {% elif ticket_data.entidad2 == 40 %} C.S. VILLA SAN LUIS
+  {% elif ticket_data.entidad2 == 41 %} C.S. LEONOR SAAVEDRA
+  {% elif ticket_data.entidad2 == 42 %} C.S. JESÚS PODEROSO
+  {% elif ticket_data.entidad2 == 43 %} P.S. EL BRILLANTE
+  {% elif ticket_data.entidad2 == 44 %} P.S. 6 DE JULIO
+  {% elif ticket_data.entidad2 == 45 %} C.M.I. MANUEL BARRETO
+  {% elif ticket_data.entidad2 == 46 %} P.S. VIRGEN DEL BUEN PASO
+  {% elif ticket_data.entidad2 == 47 %} P.S. SAN FRANCISCO DE LA CRUZ
+  {% elif ticket_data.entidad2 == 48 %} P.S. MARIANNE PREUSS DE STARK
+  {% elif ticket_data.entidad2 == 49 %} C.M.I. OLLANTAY
+  {% elif ticket_data.entidad2 == 50 %} P.S. LA RINCONADA
+  {% elif ticket_data.entidad2 == 51 %} P.S. LEONCIO PRADO
+  {% elif ticket_data.entidad2 == 52 %} P.S. JOSÉ M. ARGUEDAS
+  {% elif ticket_data.entidad2 == 53 %} P.S. 5 DE MAYO
+  {% elif ticket_data.entidad2 == 63 %} C.S.M.C. 12 DE NOVIEMBRE
+  {% elif ticket_data.entidad2 == 136 %} CSMC RICARDO PALMA
+  {% elif ticket_data.entidad2 == 82 %} C.M.I. SAN JOSÉ
+  {% elif ticket_data.entidad2 == 83 %} P.S. SEÑOR DE LOS MILAGROS
+  {% elif ticket_data.entidad2 == 84 %} P.S. LLANAVILLA
+  {% elif ticket_data.entidad2 == 85 %} C.S.M.C. EL SOL DE VILLA
+  {% elif ticket_data.entidad2 == 86 %} C.S.M.C. VILLA EL SALVADOR
+  {% elif ticket_data.entidad2 == 87 %} C.S. SAN MARTÍN DE PORRES
+  {% elif ticket_data.entidad2 == 88 %} P.S. VIRGEN DE LA ASUNCIÓN
+  {% elif ticket_data.entidad2 == 89 %} P.S. SAGRADA FAMILIA
+  {% elif ticket_data.entidad2 == 90 %} C.M.I. JUAN PABLO II
+  {% elif ticket_data.entidad2 == 91 %} P.S. FERNANDO LUYO SIERRA
+  {% elif ticket_data.entidad2 == 92 %} P.S. CRISTO SALVADOR
+  {% elif ticket_data.entidad2 == 93 %} P.S. SARITA COLONIA
+  {% elif ticket_data.entidad2 == 94 %} P.S. OASIS DE VILLA
+  {% elif ticket_data.entidad2 == 95 %} P.S. SASBI
+  {% elif ticket_data.entidad2 == 96 %} C.M.I. CÉSAR LOPEZ SILVA
+  {% elif ticket_data.entidad2 == 97 %} P.S. PRÍNCIPE DE ASTURIAS
+  {% elif ticket_data.entidad2 == 98 %} P.S. PACHACAMAC
+  {% elif ticket_data.entidad2 == 99 %} P.S. EDILBERTO RAMOS
+  {% elif ticket_data.entidad2 == 100 %} C.S. HÉROES DEL CENEPA
+  {% elif ticket_data.entidad2 == 101 %} C.S. BRISAS DE PACHACAMAC
+  {% elif ticket_data.entidad2 == 131 %} C.S.M.C. VIRGEN DE LA MERCED
+  {% elif ticket_data.entidad2 == 54 %} C.M.I. VILLA MARÍA DEL TRIUNFO
+  {% elif ticket_data.entidad2 == 55 %} P.S. 12 DE JUNIO
+  {% elif ticket_data.entidad2 == 56 %} P.S. SANTA ROSA DE BELÉN
+  {% elif ticket_data.entidad2 == 57 %} C.M.I. JOSÉ CARLOS MARIÁTEGUI
+  {% elif ticket_data.entidad2 == 58 %} P.S. VILLA LIMATAMBO
+  {% elif ticket_data.entidad2 == 59 %} P.S. JUAN CARLOS SOBERON
+  {% elif ticket_data.entidad2 == 60 %} P.S. BUENOS AIRES
+  {% elif ticket_data.entidad2 == 61 %} P.S. VALLE ALTO
+  {% elif ticket_data.entidad2 == 62 %} P.S. PARAÍSO ALTO
+  {% elif ticket_data.entidad2 == 64 %} P.S. VALLE BAJO
+  {% elif ticket_data.entidad2 == 65 %} C.M.I. JOSÉ GALVEZ
+  {% elif ticket_data.entidad2 == 66 %} P.S. MÓDULO I
+  {% elif ticket_data.entidad2 == 67 %} P.S. NUEVO PROGRESO
+  {% elif ticket_data.entidad2 == 68 %} P.S. CIUDAD DE GOSEN
+  {% elif ticket_data.entidad2 == 69 %} C.S. NUEVA ESPERANZA
+  {% elif ticket_data.entidad2 == 70 %} P.S. VIRGEN DE LOURDES
+  {% elif ticket_data.entidad2 == 71 %} P.S. CÉSAR VALLEJO II
+  {% elif ticket_data.entidad2 == 72 %} P.S. NUEVA ESPERANZA ALTA
+  {% elif ticket_data.entidad2 == 73 %} C.M.I. DANIEL A. CARRIÓN
+  {% elif ticket_data.entidad2 == 74 %} P.S. TORRES DE MELGAR
+  {% elif ticket_data.entidad2 == 75 %} P.S. MICAELA BASTIDAS
+  {% elif ticket_data.entidad2 == 76 %} C.M.I. TABLADA DE LURÍN
+  {% elif ticket_data.entidad2 == 77 %} P.S. SANTA ROSA DE LAS CONCHITAS
+  {% elif ticket_data.entidad2 == 78 %} C.S.M.C. SAN GABRIEL ALTO
+  {% elif ticket_data.entidad2 == 79 %} CAM. TAYTA WASI
+  {% elif ticket_data.entidad2 == 80 %} P.S. DAVID GUERRERO DUARTE
+  {% elif ticket_data.entidad2 == 81 %} C.S.M.C. MONSEÑOR JOSÉ RAMÓN GURRUCHAGA
+  {% elif ticket_data.entidad2 == 176 %} C.S.M.C. VIKTOR FRANKL 
+  {% elif ticket_data.entidad2 == 177 %} C.S.M.C. QHALI KAY
+  {% elif ticket_data.entidad2 == 178 %} C.S.M.C. YUYAY WASI
+  {% elif ticket_data.entidad2 == 179 %} C.S.M.C. LEÓN XIV
+  {% elif ticket_data.entidad2 == 180 %} LABORATORIO PS PUNTA HERMOSA
+  {% elif ticket_data.entidad2 == 181 %} LOCAL ARCHIVO CENTRAL
+  {% elif ticket_data.entidad2 == 182 %} C.S JOSE OLAYA BALANDRA
+  {% elif ticket_data.entidad2 == 183 %} HOGAR PROTEGIDO CHORRILLOS
+  {% elif ticket_data.entidad2 == 184 %} HOGAR PROTEGIDO VILLA MARIA DEL TRIUNFO
+  {% elif ticket_data.entidad2 == 170 %} RIS BCO-CHO-SCO
+  {% elif ticket_data.entidad2 == 171 %} RIS SAN JUAN DE MIRAFLORES
+  {% elif ticket_data.entidad2 == 172 %} RIS VILLA MARIA DEL TRIUNFO
+  {% elif ticket_data.entidad2 == 173 %} RIS VILLA EL SALVADOR
+  {% elif ticket_data.entidad2 == 174 %} RIS LURIN Y BALNEARIOS
+  {% elif ticket_data.entidad2 == 175 %} RIS PACHACAMAC
+  {% elif ticket_data.entidad2 == 185 %} SEDE ADMINISTRATIVA - I (LOCAL PINILLOS)
+  {% elif ticket_data.entidad2 == 186 %} SEDE ADMINISTRATIVA - II  (LOCAL FAP)
+  {% elif ticket_data.entidad2 == 187 %} ALMACÉN CENTRAL
+  {% elif ticket_data.entidad2 == 142 %} DIRECCION GENERAL
+{% elif ticket_data.entidad2 == 144 %} DIRECCION ADJUNTA
+{% elif ticket_data.entidad2 == 145 %} OFICINA DE COMUNICACIONES
+{% elif ticket_data.entidad2 == 146 %} OFICINA DE INTEGRIDAD INSTITUCIONAL
+{% elif ticket_data.entidad2 == 148 %} OFICINA DE GESTION DE RECURSOS HUMANOS
+{% elif ticket_data.entidad2 == 150 %} OFICINA DE INFRAESTRUCTURA Y EQUIPAMIENTO
+{% elif ticket_data.entidad2 == 157 %} DIRECCION DE SALUD AMBIENTAL E INOCUIDAD ALIMENTARIA
+{% elif ticket_data.entidad2 == 158 %} DIRECCION DE MEDICAMENTOS, INSUMOS Y DROGAS
+{% elif ticket_data.entidad2 == 159 %} DIRECCION DE MONITOREO Y GESTION SANITARIA
+{% elif ticket_data.entidad2 == 160 %} OFICINA DE MONITOREO Y SUPERVISION
+{% elif ticket_data.entidad2 == 161 %} OFICINA DE GESTION DE RIESGOS Y DESASTRES
+{% elif ticket_data.entidad2 == 162 %} OFICINA DE SERVICIOS DE SALUD
+{% elif ticket_data.entidad2 == 163 %} OFICINA DE GESTION DE CALIDAD
+{% elif ticket_data.entidad2 == 164 %} OFICINA DE SEGUROS
+{% elif ticket_data.entidad2 == 166 %} OFICINA DE INTERVENCIONES SANITARIAS
+{% elif ticket_data.entidad2 == 167 %} OFICINA DE EPIDEMIOLOGIA, INTELIGENCIA SANITARIA Y DOCENCIA E INVESTIGACION
+{% elif ticket_data.entidad2 == 168 %} OFICINA DE ASESORIA JURIDICA
+{% elif ticket_data.entidad2 == 140 %} OFICINA DE GESTION DE TECNOLOGIAS DE LA INFORMACION - DIRIS LS
+{% elif ticket_data.entidad2 == 143 %} ORGANO DE CONTROL INSTITUCIONAL
+{% elif ticket_data.entidad2 == 147 %} DIRECCION ADMINISTRATIVA
+{% elif ticket_data.entidad2 == 149 %} OFICINA DE ABASTECIMIENTO
+{% elif ticket_data.entidad2 == 151 %} OFICINA DE TESORERIA
+{% elif ticket_data.entidad2 == 152 %} OFICINA DE CONTABILIDAD
+{% elif ticket_data.entidad2 == 153 %} OFICINA DE TRAMITE DOCUMENTARIO Y ARCHIVO
+{% elif ticket_data.entidad2 == 154 %} OFICINA DE PLANEAMIENTO Y MODERNIZACION DE LA GESTION PUBLICA
+{% elif ticket_data.entidad2 == 155 %} OFICINA DE PRESUPUESTO PUBLICO
+{% elif ticket_data.entidad2 == 156 %} OFICINA DE PROYECTOS DE INVERSION
+{% elif ticket_data.entidad2 == 165 %} OFICINA DE APOYO AL DIAGNOSTICO Y LABORATORIO DE SALUD PUBLICA
+{% elif ticket_data.entidad2 == 169 %} SECRETARIA TECNICA DEL PROCEDIMIENTO ADMINISTRATIVO DISCIPLINARIO
+{% elif ticket_data.entidad2 == 188 %} UNIDAD DE GESTIÓN DE LA INFORMACIÓN ESTADÍSTICA
+{% else %}
+{% endif %}</td></tr>
+        <tr><th>Sede</th><td>{{ ticket_data.ris|default:"" }}</td></tr>
+        <tr><th>Tipo de incidencia</th><td>{% if ticket_data.tipo_incidencia == 1 %}
+    <span>Problemas con computadoras</span>
+{% elif ticket_data.tipo_incidencia == 2 %}
+    <span>Problemas con Sistemas Institucionales (SIAF, SIGA, SGD, TRAMITE, etc)</span>
+{% elif ticket_data.tipo_incidencia == 3 %}
+    <span>Conectividad y Redes</span>
+{% elif ticket_data.tipo_incidencia == 4 %}
+    <span>Impresoras y escáner</span>
+{% elif ticket_data.tipo_incidencia == 5 %}
+    <span>Software de Ofimática</span>
+    {% elif ticket_data.tipo_incidencia == 6 %}
+    <span>Problemas con SIHCE</span>
+{% else %}
+    <span class="badge badge-pill badge-primary"></span>
+{% endif %}</td></tr>
+
+
+        <tr><th>Detalle de la solicitud</th><td>{{ ticket_data.detalle_solicitud }}</td></tr>
+        <tr><th>Personal Asignado</th><td>{{ ticket_data.nombre_soporte|default:"" }}</td></tr>
+        <tr><th>Observación</th><td>{{ ticket_data.detalle_atencion|default:""}}</td></tr>
+         <tr>
+    <th>Fecha y hora que se atendió</th>
+    <td>
+        {% if ticket_data.fecha_atencion %}
+            {{ ticket_data.fecha_atencion|date:"d \\d\\e F \\d\\e Y" }} a las {{ ticket_data.fecha_atencion|time:"H:i" }}
+        {% else %}
+            <!-- valor por defecto vacío -->
+        {% endif %}
+    </td>
+</tr>
+    </table><!-- 🔵 BOTÓN VOLVER -->
+<div class="mt-3">
+    <a href="{% url 'registrar_ticket' %}" class="btn btn-secondary">← Volver</a>
+</div>
+    {% endif %}
+
+</div>
+</div>
+
+</body>
+</html>
