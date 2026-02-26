@@ -32,12 +32,12 @@ ESTADOS_RECLAMO = (
 from django.db import models
 
 class Cita(models.Model):
-    tipo_documento = models.CharField(max_length=30)
-    numero_doc = models.CharField(max_length=20)
-    fecha_nacimiento = models.CharField(max_length=15)
-    establecimiento = models.CharField(max_length=150)
-    ups = models.CharField(max_length=150)
-    servicio = models.CharField(max_length=500)
+    tipo_documento = models.CharField(max_length=30, null=False, blank=False)
+    numero_doc = models.CharField(max_length=20, null=False, blank=False)
+    fecha_nacimiento = models.CharField(max_length=15, null=False, blank=False)
+    establecimiento = models.CharField(max_length=150, null=False, blank=False)
+    ups = models.CharField(max_length=150, null=False, blank=False)
+    servicio = models.CharField(max_length=500, null=False, blank=False)
 
     class Meta:
         db_table = 'citas'  # Apunta exactamente a la tabla en MySQL
