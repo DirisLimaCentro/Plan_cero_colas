@@ -79,7 +79,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'plan_cero_colas',
         'USER': 'root',
-        'PASSWORD': 'Administrador@123',
+        'PASSWORD': '1234',
         'HOST': '127.0.0.1',
         'PORT': '3306',
         'OPTIONS': {
