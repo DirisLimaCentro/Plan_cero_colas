@@ -134,7 +134,15 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+# settings.py
+
+STATIC_URL = '/static/'
+
+# Carpeta donde Django buscará archivos estáticos en desarrollo
+STATICFILES_DIRS = [BASE_DIR / "static"]
+
+# Carpeta donde se recolectarán todos los static para producción
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
